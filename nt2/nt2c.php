@@ -32,7 +32,11 @@
         }else{
             file_put_contents("palautteet.txt","$nimi ",FILE_APPEND);
             file_put_contents("palautteet.txt","$sahkoposti ",FILE_APPEND);
-            file_put_contents("palautteet.txt",$palaute"/n",FILE_APPEND);
+            file_put_contents("palautteet.txt","$palaute",FILE_APPEND);
+            file_put_contents("palautteet.txt","\n",FILE_APPEND);
+
+
+            //mail("joku.sahkoposti@gmail.com", "Palautetta", $palaute);
         }
     
     ?>

@@ -7,6 +7,12 @@
     <title>Document</title>
 </head>
 <body>
-    
+    <h2>Palautteet</h2>
+
+
+
+    <?php
+       echo file_get_contents("palautteet.txt");
+    ?>
 </body>
 </html>
