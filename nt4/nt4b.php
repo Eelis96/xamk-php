@@ -8,7 +8,7 @@
 </head>
 <body>
 
-    <h2>Hakusovellus</h2>
+    <h2>Joukkueen tietojan hakeminen</h2>
     <form action="nt4b.php" method="post">
         Joukkueen Nimi:<input type="text" name="joukkue">
         <input type="submit" value="Etsi" name="etsi">
@@ -27,17 +27,21 @@
         }else{
 
             include_once("pdo_connect.php");
+            //poistaa kaiken tyhjän oikealta puolelta
+            $joukkue = rtrim(htmlspecialchars($_POST['joukkue']));
 
-            $joukkue = $_POST['joukkue'];
-
+            //hakee tiedot tietokannasta
             try{
                 $stmt = $conn->prepare("SELECT * FROM sarjataulukko WHERE joukkue LIKE :joukkue");
                 $stmt->bindParam(':joukkue', $joukkue);
-                //halee tiedot tietokannasta
                 if($stmt->execute() == false){
                     echo 'Virhe';
                 }else{
                     $result = $stmt->fetch(PDO::FETCH_ASSOC);
+                    //jos joukkuetta ei löydy palaa takaisin
+                    if(empty($result)){
+                        header('location: nt4b.php');
+                    }
                 }
             }catch (PDOException $e)   {
                 $data = array(
@@ -45,8 +49,10 @@
                 );
             }
 
+            //laskee ottelut ja pisteet
             $ottelut = $result['voitot'] + $result['tappiot'] + $result['tasapelit'];
             $pisteet = $result['voitot'] * 3 + $result['tasapelit'];
+            //tulostaa joukkueen tiedot
             echo '<table style="width:100%">
                 <tr>
                     <th>Joukkue</th>

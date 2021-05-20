@@ -13,7 +13,7 @@
         
         try{
             $stmt = $conn->prepare("SELECT * FROM sarjataulukko");
-            //halee tiedot tietokannasta
+            //hakee tiedot tietokannasta
             if($stmt->execute() == false){
                 echo 'Virhe';
             }else{
